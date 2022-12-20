@@ -5,8 +5,8 @@ defmodule WikiLinks.Wiki_link do
 
   import Ecto.Query, warn: false
   alias WikiLinks.Repo
-
   alias WikiLinks.Wiki_link.Link
+
 
   @doc """
   Returns the list of links.
@@ -20,6 +20,13 @@ defmodule WikiLinks.Wiki_link do
   def list_links do
     Repo.all(Link)
   end
+
+  def list_fav_links do
+    query = from(u in Link,
+          where: u.fav == true)
+    Repo.all(query)
+  end
+
 
   @doc """
   Gets a single link.
