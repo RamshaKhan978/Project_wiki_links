@@ -22,6 +22,7 @@ defmodule WikiLinksWeb.Router do
 
     get "/", PageController, :index
     resources "/links", LinkController
+    get "/chat", ChatController, :index
   end
 
   # Other scopes may use custom stacks.
