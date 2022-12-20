@@ -1,0 +1,31 @@
+<h1>Show Link</h1>
+
+<ul>
+
+  <li>
+    <strong>Link:</strong>
+    <%= @link.link %>
+  </li>
+
+  <li>
+    <strong>Tag:</strong>
+    <%= @link.tag %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @link.description %>
+  </li>
+
+  <li>
+    <strong>Fav:</strong>
+    <%= @link.fav %>
+  </li>
+
+</ul>
+<%= if @current_user do %>
+<span><%= link "Edit", to: Routes.link_path(@conn, :edit, @link) %></span> |
+<span><%= link "Back", to: Routes.link_path(@conn, :index) %></span>
+<% else %>
+<span><%= link "Back", to: Routes.link_path(@conn, :index) %></span>
+<% end %>
