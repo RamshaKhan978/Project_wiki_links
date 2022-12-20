@@ -1,0 +1,22 @@
+<h1>Listing  fav Links</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Link</th>
+      <th>Tag</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for link <- @links do %>
+    <tr>
+      <td><%= link.link %></td>
+      <td><%= link.tag %></td>
+      <td><%= link.description %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<span><%= link "Back", to: Routes.link_path(@conn, :index) %></span>
+
