@@ -17,15 +17,42 @@ defmodule WikiLinks.Wiki_link do
       [%Link{}, ...]
 
   """
-  def list_links do
+  def show_links() do
     Repo.all(Link)
   end
+
+  def list_links(params) do
+    search_term = get_in(params, ["query"])
+
+    Link
+    |> Link.search(search_term)
+    |> Repo.all()
+  end
+
+  def list_tag(params) do
+    search_tag = get_in(params, ["query_tag"])
+    IO.inspect(search_tag)
+    Link
+    |> Link.search_tag(search_tag)
+    |> Repo.all()
+  end
+
+  def link_tag(params) do
+    search_tag = get_in(params, ["query_tag"])
+    search_link = get_in(params, ["query"])
+    Link
+    |> Link.search_link_tag(search_tag,search_link)
+    |> Repo.all()
+  end
+
 
   def list_fav_links do
     query = from(u in Link,
           where: u.fav == true)
     Repo.all(query)
   end
+
+
 
 
   @doc """

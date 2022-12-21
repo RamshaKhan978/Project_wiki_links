@@ -5,9 +5,25 @@ defmodule WikiLinksWeb.LinkController do
   alias WikiLinks.Wiki_link.Link
 
   def index(conn, _params) do
-    links = Wiki_link.list_links()
+    links = Wiki_link.show_links()
     render(conn, "index.html", links: links)
-  end
+    end
+
+
+  def index(conn, params) do
+    if params["query_tag"]== "" do
+      links= Wiki_link.list_links(params)
+       render(conn, "index.html", links: links)
+    end
+    if params["query"]== "" do
+     links= Wiki_link.list_tag(params)
+      render(conn, "index.html", links: links)
+   end
+   if params["query_tag"] && params["query"] != "" do
+    links= Wiki_link.link_tag(params)
+    render(conn, "index.html", links: links)
+   end
+end
 
   def new(conn, _params) do
     changeset = Wiki_link.change_link(%Link{})
