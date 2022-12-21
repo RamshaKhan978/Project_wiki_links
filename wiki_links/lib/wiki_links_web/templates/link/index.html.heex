@@ -6,7 +6,7 @@
       <th>Link</th>
       <th>Tag</th>
       <th>Description</th>
-      <th>Fav</th>
+      
 
       <th></th>
     </tr>
@@ -17,10 +17,14 @@
       <td><%= link.link %></td>
       <td><%= link.tag %></td>
       <td><%= link.description %></td>
-      <td><%= link.fav %></td>
 <%= if @current_user do %>
       <td>
-        <span><%= link "Show", to: Routes.link_path(@conn, :show, link) %></span>
+      <%= if link.fav == true do %>
+        <span><%= link "Mark Unfav", to: Routes.link_path(@conn, :updatefav,  link) %></span>
+         <% else %>
+          <span><%= link "Mark fav", to: Routes.link_path(@conn, :updatefav,  link) %></span>
+          <% end %>
+         <span><%= link "Show", to: Routes.link_path(@conn, :show, link) %></span>
         <span><%= link "Edit", to: Routes.link_path(@conn, :edit, link) %></span>
         <span><%= link "Delete", to: Routes.link_path(@conn, :delete, link), method: :delete, data: [confirm: "Are you sure?"] %></span>
       </td>

@@ -108,4 +108,19 @@ defmodule WikiLinks.Wiki_link do
   def change_link(%Link{} = link, attrs \\ %{}) do
     Link.changeset(link, attrs)
   end
+
+  def fav_update(id) do
+    query =  from(p in Link, where: p.id == ^id, select: p)
+  |> Repo.update_all(set: [fav: false])
+  end
+
+  def unfav_update(id) do
+    query =  from(p in Link, where: p.id == ^id, select: p)
+  |> Repo.update_all(set: [fav: true])
+  end
+
+
+
+
+
 end

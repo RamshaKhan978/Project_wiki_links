@@ -6,6 +6,7 @@
       <th>Link</th>
       <th>Tag</th>
       <th>Description</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -14,6 +15,7 @@
       <td><%= link.link %></td>
       <td><%= link.tag %></td>
       <td><%= link.description %></td>
+      <td><span><%= link "Mark Unfav", to: Routes.link_path(@conn, :updatefav,  link) %></span></td>
       </tr>
     <% end %>
   </tbody>

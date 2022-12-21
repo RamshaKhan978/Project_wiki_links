@@ -23,6 +23,7 @@ defmodule WikiLinksWeb.Router do
     get "/", PageController, :index
     resources "/links", LinkController
     get "/fav_link", FavLinkController, :index
+    get "/update_fav_link/:id", LinkController, :updatefav
   end
 
   # Other scopes may use custom stacks.
