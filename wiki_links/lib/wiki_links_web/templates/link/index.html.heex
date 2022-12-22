@@ -1,5 +1,9 @@
 <h1>Listing Links</h1>
-
+<%= form_for @conn, Routes.link_path(@conn, :index), [method: :get], fn f -> %>
+      <%= search_input f, :query, placeholder: "search by link" %>
+       <%= search_input f, :query_tag, placeholder: "search by tag" %>
+      <%= submit "Search" %>
+<% end %>
 <table>
   <thead>
     <tr>

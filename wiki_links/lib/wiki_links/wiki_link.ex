@@ -17,9 +17,28 @@ defmodule WikiLinks.Wiki_link do
       [%Link{}, ...]
 
   """
-  def list_links do
+  def show_links() do
     Repo.all(Link)
   end
+
+  def list_links(query) do
+    Link
+    |> Link.search(query)
+    |> Repo.all()
+  end
+
+  def list_tag(query_tag) do
+    Link
+    |> Link.search_tag(query_tag)
+    |> Repo.all()
+  end
+
+  def link_tag(query_tag,query) do
+    Link
+    |> Link.search_link_tag(query_tag,query)
+    |> Repo.all()
+  end
+
 
   def list_fav_links do
     query = from(u in Link,

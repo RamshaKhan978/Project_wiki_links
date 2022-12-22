@@ -4,9 +4,23 @@ defmodule WikiLinksWeb.LinkController do
   alias WikiLinks.Wiki_link
   alias WikiLinks.Wiki_link.Link
 
-  def index(conn, _params) do
-    links = Wiki_link.list_links()
+  def index(conn, %{"query_tag" => query_tag,"query" => query}) when query_tag != ""  and query == "" do
+    links= Wiki_link.list_tag(query_tag)
     render(conn, "index.html", links: links)
+end
+
+def index(conn, %{"query_tag" => query_tag,"query" => query}) when query_tag == ""  and query != "" do
+  links= Wiki_link.list_links(query)
+  render(conn, "index.html", links: links)
+end
+def index(conn, %{"query_tag" => query_tag, "query" => query}) when query_tag != "" and query != "" do
+  links= Wiki_link.link_tag(query_tag,query)
+  render(conn, "index.html", links: links)
+end
+
+def index(conn, _params) do
+  links = Wiki_link.show_links()
+  render(conn, "index.html", links: links)
   end
 
   def new(conn, _params) do
