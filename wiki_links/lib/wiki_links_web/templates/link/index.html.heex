@@ -1,9 +1,5 @@
 <h1>Listing Links</h1>
-<%= form_for @conn, Routes.link_path(@conn, :index), [method: :get], fn f -> %>
-      <%= search_input f, :query, placeholder: "search by link" %>
-       <%= search_input f, :query_tag, placeholder: "search by tag" %>
-      <%= submit "Search" %>
-<% end %>
+
 <table>
   <thead>
     <tr>
@@ -30,7 +26,7 @@
           <% end %>
          <span><%= link "Show", to: Routes.link_path(@conn, :show, link) %></span> |
         <span><%= link "Edit", to: Routes.link_path(@conn, :edit, link) %></span> |
-        <span><%= link "Delete", to: Routes.link_path(@conn, :delete, link), data: [confirm: "Are you sure?"] %></span>
+        <span><%= link "Delete", to: Routes.link_path(@conn, :deletelink, link)%></span>
       </td>
      <% else %>
      <td>

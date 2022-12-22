@@ -25,7 +25,7 @@ defmodule WikiLinksWeb.Router do
     get "/fav_link", FavLinkController, :index
     get "/update_fav_link/:id", LinkController, :updatefav
     get "/chat", ChatController, :chatbox
-    get "/links/delete/:id",LinkController, :delete
+    get "/links/delete/:id", LinkController, :deletelink
   end
 
   # Other scopes may use custom stacks.

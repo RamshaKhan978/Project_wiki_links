@@ -42,6 +42,7 @@ def index(conn, _params) do
 
   def show(conn, %{"id" => id}) do
     link = Wiki_link.get_link!(id)
+    IO.inspect(link)
     render(conn, "show.html", link: link)
   end
 
@@ -65,7 +66,7 @@ def index(conn, _params) do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def deletelink(conn, %{"id" => id}) do
     link = Wiki_link.get_link!(id)
     {:ok, _link} = Wiki_link.delete_link(link)
 
