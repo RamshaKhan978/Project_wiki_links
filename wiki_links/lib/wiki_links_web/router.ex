@@ -22,7 +22,6 @@ defmodule WikiLinksWeb.Router do
 
     get "/", PageController, :index
     resources "/links", LinkController
-    get "/chat", ChatController, :index
     get "/fav_link", FavLinkController, :index
     get "/update_fav_link/:id", LinkController, :updatefav
   end
@@ -87,7 +86,7 @@ defmodule WikiLinksWeb.Router do
   scope "/", WikiLinksWeb do
     pipe_through [:browser]
 
-    get "/users/log_out", UserSessionController, :delete
+    delete "/users/log_out", UserSessionController, :delete
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create
     get "/users/confirm/:token", UserConfirmationController, :edit
