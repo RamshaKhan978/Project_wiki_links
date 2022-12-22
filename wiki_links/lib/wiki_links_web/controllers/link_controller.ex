@@ -68,13 +68,13 @@ defmodule WikiLinksWeb.LinkController do
     if link.fav == true do
       Wiki_link.fav_update(id)
       conn
-    |> put_flash(:info, " Marked faviourate ")
+    |> put_flash(:info, " UnMarked faviourate ")
     |> redirect(to: Routes.link_path(conn, :index))
     else
       Wiki_link.unfav_update(id)
     end
     conn
-    |> put_flash(:info, "Unmarked faviourate")
+    |> put_flash(:info, "Marked faviourate")
     |> redirect(to: Routes.link_path(conn, :index))
 
   end
