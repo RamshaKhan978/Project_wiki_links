@@ -4,27 +4,27 @@ defmodule WikiLinksWeb.LinkController do
   alias WikiLinks.Wiki_link
   alias WikiLinks.Wiki_link.Link
 
-  def index(conn, _params) do
-    links = Wiki_link.show_links()
-    render(conn, "index.html", links: links)
-    end
 
-
-  def index(conn, params) do
-    if params["query_tag"]== "" do
-      links= Wiki_link.list_links(params)
-       render(conn, "index.html", links: links)
-    end
-    if params["query"]== "" do
-     links= Wiki_link.list_tag(params)
-      render(conn, "index.html", links: links)
-   end
-   if params["query_tag"] && params["query"] != "" do
-    links= Wiki_link.link_tag(params)
+  def index(conn, %{"query_tag" => query_tag,"query" => query}) when query_tag != ""  and query == "" do
+    links= Wiki_link.list_tag(query_tag)
     render(conn, "index.html", links: links)
-   end
 end
 
+def index(conn, %{"query_tag" => query_tag,"query" => query}) when query_tag == ""  and query != "" do
+  links= Wiki_link.list_links(query)
+  render(conn, "index.html", links: links)
+end
+def index(conn, %{"query_tag" => query_tag, "query" => query}) when query_tag != "" and query != "" do
+  links= Wiki_link.link_tag(query_tag,query)
+  render(conn, "index.html", links: links)
+end
+
+
+
+def index(conn, _params) do
+  links = Wiki_link.show_links()
+  render(conn, "index.html", links: links)
+  end
   def new(conn, _params) do
     changeset = Wiki_link.change_link(%Link{})
     render(conn, "new.html", changeset: changeset)

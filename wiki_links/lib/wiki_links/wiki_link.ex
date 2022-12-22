@@ -21,27 +21,23 @@ defmodule WikiLinks.Wiki_link do
     Repo.all(Link)
   end
 
-  def list_links(params) do
-    search_term = get_in(params, ["query"])
-
+  def list_links(query) do
     Link
-    |> Link.search(search_term)
+    |> Link.search(query)
     |> Repo.all()
   end
 
-  def list_tag(params) do
-    search_tag = get_in(params, ["query_tag"])
-    IO.inspect(search_tag)
+  def list_tag(query_tag) do
     Link
-    |> Link.search_tag(search_tag)
+    |> Link.search_tag(query_tag)
     |> Repo.all()
   end
 
-  def link_tag(params) do
-    search_tag = get_in(params, ["query_tag"])
-    search_link = get_in(params, ["query"])
+  def link_tag(query_tag,query) do
+    IO.inspect(query)
+    IO.inspect(query_tag)
     Link
-    |> Link.search_link_tag(search_tag,search_link)
+    |> Link.search_link_tag(query_tag,query)
     |> Repo.all()
   end
 
