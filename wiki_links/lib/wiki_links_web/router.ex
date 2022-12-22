@@ -24,7 +24,8 @@ defmodule WikiLinksWeb.Router do
     resources "/links", LinkController
     get "/fav_link", FavLinkController, :index
     get "/update_fav_link/:id", LinkController, :updatefav
-    get "/links/:id", LinkController, :delete
+    get "/links/delete/:id", LinkController, :delete
+    get "/chat", ChatController, :index
   end
 
   # Other scopes may use custom stacks.
@@ -87,7 +88,7 @@ defmodule WikiLinksWeb.Router do
   scope "/", WikiLinksWeb do
     pipe_through [:browser]
 
-    delete "/users/log_out", UserSessionController, :delete
+    get "/users/log_out", UserSessionController, :delete
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create
     get "/users/confirm/:token", UserConfirmationController, :edit

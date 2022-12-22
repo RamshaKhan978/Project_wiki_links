@@ -42,5 +42,5 @@
   </tbody>
 </table>
 <%= if @current_user do %>
-<span><%= link "New Link", to: Routes.link_path(@conn, :new) %></span> | <span><%= link "Fav Link", to: Routes.fav_link_path(@conn, :index) %></span>
+<span><%= link "New Link", to: Routes.link_path(@conn, :new) %></span> | <span><%= link "Fav Link", to: Routes.fav_link_path(@conn, :index) %></span> | <span><%= link "Back", to: Routes.page_path(@conn, :index) %></span>
 <% end %>
