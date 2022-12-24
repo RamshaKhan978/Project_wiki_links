@@ -42,7 +42,6 @@ def index(conn, _params) do
 
   def show(conn, %{"id" => id}) do
     link = Wiki_link.get_link!(id)
-    IO.inspect(link)
     render(conn, "show.html", link: link)
   end
 
