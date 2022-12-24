@@ -22,11 +22,11 @@ defmodule WikiLinks.Wiki_link.Link do
 
   def search(query, search_term) do
     wildcard_search = "%#{search_term}%"
+query
+  |> where([link], ilike(link.link, ^wildcard_search))
 
-    from link in query,
-    where: ilike(link.link, ^wildcard_search)
+
   end
-
 
   def search_tag(query, search_tag) do
     wildcard_search_tag = "%#{search_tag}%"
@@ -37,9 +37,8 @@ defmodule WikiLinks.Wiki_link.Link do
   def search_link_tag(query,search_tag,search_link) do
     wildcard_tag = "%#{search_tag}%"
     wildcard_link = "%#{search_link}%"
-
-    from link in query,
-    where: ilike(link.tag, ^wildcard_tag),
-    where: ilike(link.link, ^wildcard_link)
+query
+   |> where([link],ilike(link.tag, ^wildcard_tag))
+   |> where([link],ilike(link.link, ^wildcard_link))
   end
 end

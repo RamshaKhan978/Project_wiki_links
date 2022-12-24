@@ -20,7 +20,7 @@ defmodule WikiLinks.MixProject do
   def application do
     [
       mod: {WikiLinks.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :pdf_generator]
     ]
   end
 
@@ -49,7 +49,9 @@ defmodule WikiLinks.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      {:pdf_generator, "~> 0.6.2"},
+      {:sneeze, "~> 1.1"}
     ]
   end
 
