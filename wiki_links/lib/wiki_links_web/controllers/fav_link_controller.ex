@@ -1,7 +1,11 @@
 defmodule WikiLinksWeb.FavLinkController do
+alias WikiLinks.GeneratePdf.Pdf
+
   use WikiLinksWeb, :controller
   alias WikiLinks.Wiki_link
   alias WikiLinks.Wiki_link.Link
+
+
 
   def index(conn, _params) do
     links = Wiki_link.list_fav_links()
@@ -11,20 +15,27 @@ defmodule WikiLinksWeb.FavLinkController do
 
   def pdf(conn, _param) do
     links = Wiki_link.list_fav_links()
-    IO.inspect(links)
     html = Phoenix.View.render_to_string(WikiLinksWeb.FavLinkView,"pdf.html", links: links)
-    case PdfGenerator.generate(html, page_size: "A4", shell_params: ["--dpi", "300"]) do
-          {:ok, filename} ->
-            IO.inspect(filename)
-            :ok = File.rename(filename, "./Favourite_links.pdf")
-            conn
-            |> put_flash(:info, "PDF Saved")
-            |> redirect(to: Routes.link_path(conn, :index))
-            {:error, _changeset} ->
-                    conn
-                 |> put_flash(:error, "PDF Failed")
-                 |> redirect(to: Routes.link_path(conn, :index))
-            end
+
+     case Pdf.generate_pdf(html)
+     |> IO.inspect(label: "File Name")
+      do
+     {:ok,filename}  ->
+      :ok = File.rename(filename, "./priv/static.pdf")
+      conn
+      |> put_resp_content_type("application/pdf", "utf-8")
+      |> put_resp_header(
+        "content-disposition",
+        "attachment; filename=\"fav_link.pdf\""
+        )
+      |> put_flash(:info, "PDF Saved")
+      |> redirect(to: Routes.link_path(conn, :index))
+      |> send_file(200, filename)
+     end
+
+
+
+
 end
 
 
