@@ -24,7 +24,6 @@ defmodule WikiLinksWeb.Router do
     resources "/links", LinkController
     get "/fav_link", FavLinkController, :index
     get "/update_fav_link/:id", LinkController, :updatefav
-    get "/chat", ChatController, :chatbox
     get "/links/delete/:id", LinkController, :deletelink
     get "/generate/fav_pdf",FavLinkController, :pdf
     get "/generate/link_pdf",LinkController, :link_pdf
