@@ -101,7 +101,7 @@ def index(conn, _params) do
             IO.inspect(filename)
             :ok = File.rename(filename, "./links_list.pdf")
             conn
-            |> put_flash(:info, "PDF Saved")
+            |> put_flash(:info, "PDF Generated")
             |> redirect(to: Routes.link_path(conn, :index))
             {:error, _changeset} ->
                     conn
