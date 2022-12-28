@@ -6,13 +6,19 @@ alias WikiLinks.GeneratePdf.Pdf
   alias WikiLinks.Wiki_link.Link
 
 
-
+@doc """
+show the list of link marked as faviourate
+"""
   def index(conn, _params) do
     links = Wiki_link.list_fav_links()
     IO.inspect(links)
     render(conn, "index.html", links: links)
   end
 
+
+@doc """
+generate the PDF file through GenServer
+"""
   def pdf(conn, _param) do
     links = Wiki_link.list_fav_links()
     html = Phoenix.View.render_to_string(WikiLinksWeb.FavLinkView,"pdf.html", links: links)
@@ -20,17 +26,11 @@ alias WikiLinks.GeneratePdf.Pdf
      case Pdf.generate_pdf(html)
      |> IO.inspect(label: "File Name")
       do
-     {:ok,filename}  ->
-      :ok = File.rename(filename, "./priv/static.pdf")
+        {:ok,filename} ->
+          :ok = File.rename(filename, Path.expand("~/Downloads/Favourite_links.pdf"))
       conn
-      |> put_resp_content_type("application/pdf", "utf-8")
-      |> put_resp_header(
-        "content-disposition",
-        "attachment; filename=\"fav_link.pdf\""
-        )
       |> put_flash(:info, "PDF Saved")
       |> redirect(to: Routes.link_path(conn, :index))
-      |> send_file(200, filename)
      end
 
 

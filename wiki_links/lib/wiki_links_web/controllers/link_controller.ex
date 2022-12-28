@@ -1,23 +1,34 @@
 defmodule WikiLinksWeb.LinkController do
   use WikiLinksWeb, :controller
-
+  alias WikiLinks.GeneratePdf.Pdf
   alias WikiLinks.Wiki_link
   alias WikiLinks.Wiki_link.Link
 
+  @doc """
+  filter the links when searched by Link Tag only
+  """
   def index(conn, %{"query_tag" => query_tag,"query" => query}) when query_tag != ""  and query == "" do
     links= Wiki_link.list_tag(query_tag)
     render(conn, "index.html", links: links)
 end
-
+ @doc """
+  filter the links when searched by Link  only
+  """
 def index(conn, %{"query_tag" => query_tag,"query" => query}) when query_tag == ""  and query != "" do
   links= Wiki_link.list_links(query)
   render(conn, "index.html", links: links)
 end
+
+ @doc """
+  filter the links when searched by Link  and  Link Tag both
+  """
 def index(conn, %{"query_tag" => query_tag, "query" => query}) when query_tag != "" and query != "" do
   links= Wiki_link.link_tag(query_tag,query)
   render(conn, "index.html", links: links)
 end
-
+ @doc """
+ show all saved Links
+  """
 def index(conn, _params) do
   links = Wiki_link.show_links()
   render(conn, "index.html", links: links)
@@ -75,7 +86,9 @@ def index(conn, _params) do
   end
 
 
-
+ @doc """
+  mark  or unmark the link favourate
+  """
   def updatefav(conn, %{"id" => id}) do
     link = Wiki_link.get_link!(id)
     fav_link = link.fav
@@ -92,26 +105,21 @@ def index(conn, _params) do
     |> redirect(to: Routes.link_path(conn, :index))
   end
 
-
+ @doc """
+  generate the pdf for links through GenServer
+  """
   def link_pdf(conn, _params) do
     links = Wiki_link.show_links()
     html = Phoenix.View.render_to_string(WikiLinksWeb.LinkView,"pdf.html", links: links)
-    case PdfGenerator.generate(html, page_size: "A4", shell_params: ["--dpi", "300"]) do
-          {:ok, filename} ->
-            IO.inspect(filename)
-            :ok = File.rename(filename, "./links_list.pdf")
-            conn
-            |> put_flash(:info, "PDF Generated")
-            |> redirect(to: Routes.link_path(conn, :index))
-            {:error, _changeset} ->
-                    conn
-                 |> put_flash(:error, "PDF Failed")
-                 |> redirect(to: Routes.link_path(conn, :index))
-            end
-
-
+    case Pdf.generate_pdf(html)
+    |> IO.inspect(label: "File Name")
+     do
+       {:ok, filename} ->
+         IO.inspect(filename, label: " 2nd file name")
+         :ok = File.rename(filename, Path.expand("~/Downloads/Links-List.pdf"))
+     conn
+     |> put_flash(:info, "PDF Saved")
+     |> redirect(to: Routes.link_path(conn, :index))
+    end
   end
-
-
-
 end
