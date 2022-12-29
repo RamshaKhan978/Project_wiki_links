@@ -116,7 +116,7 @@ def index(conn, _params) do
      do
        {:ok, filename} ->
          IO.inspect(filename, label: " 2nd file name")
-         :ok = File.rename(filename, Path.expand("~/Downloads/Links-List.pdf"))
+         :ok = File.rename(filename, Path.expand("~/Downloads/Links-List-#{DateTime.utc_now()}.pdf"))
      conn
      |> put_flash(:info, "PDF Saved")
      |> redirect(to: Routes.link_path(conn, :index))

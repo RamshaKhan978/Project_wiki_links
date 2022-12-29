@@ -35,7 +35,6 @@ generate the PDF file through GenServer
 
 
 
-
 end
 
 

@@ -12,7 +12,7 @@ defmodule WikiLinks.Wiki_linkTest do
 
     test "list_links/0 returns all links" do
       link = link_fixture()
-      assert Wiki_link.list_links() == [link]
+      assert Wiki_link.show_links() == [link]
     end
 
     test "get_link!/1 returns the link with given id" do

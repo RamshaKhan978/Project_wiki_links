@@ -68,7 +68,7 @@ defmodule WikiLinksWeb.LinkControllerTest do
     setup [:create_link]
 
     test "deletes chosen link", %{conn: conn, link: link} do
-      conn = delete(conn, Routes.link_path(conn, :delete, link))
+      conn = get(conn, Routes.link_path(conn, :deletelink, link))
       assert redirected_to(conn) == Routes.link_path(conn, :index)
 
       assert_error_sent 404, fn ->
