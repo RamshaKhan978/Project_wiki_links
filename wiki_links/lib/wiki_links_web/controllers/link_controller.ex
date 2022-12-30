@@ -115,11 +115,12 @@ def index(conn, _params) do
     |> IO.inspect(label: "File Name")
      do
        {:ok, filename} ->
+        {:ok, pdf_content} = File.read(filename)
          IO.inspect(filename, label: " 2nd file name")
-         :ok = File.rename(filename, Path.expand("~/Downloads/Links-List-#{DateTime.utc_now()}.pdf"))
-     conn
-     |> put_flash(:info, "PDF Saved")
-     |> redirect(to: Routes.link_path(conn, :index))
+         conn
+            |> put_resp_content_type("application/pdf")
+            |> put_resp_header("content-disposition", "attachment;filename=#{filename}")
+            |> send_resp(200, pdf_content)
     end
   end
 end

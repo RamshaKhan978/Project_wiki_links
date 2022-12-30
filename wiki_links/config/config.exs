@@ -48,9 +48,9 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :pdf_generator,
-        wkhtml_path: "/usr/local/bin/wkhtmltopdf",
-        prefer_system_executable: true,
-        raise_on_missing_wkhtmltopdf_binary: false
+use_chrome: true,                           # <-- make sure you installed node/puppeteer
+prefer_system_executable: true,             # <-- set this if you installed the NPM dependencies globally
+raise_on_missing_wkhtmltopdf_binary: false
 
 
 # Import environment specific config. This must remain at the bottom
