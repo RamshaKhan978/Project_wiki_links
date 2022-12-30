@@ -12,7 +12,7 @@ config :wiki_links,
 
 # Configures the endpoint
 config :wiki_links, WikiLinksWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "https://wiki-link.gigalixirapp.com"],
   render_errors: [view: WikiLinksWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: WikiLinks.PubSub,
   live_view: [signing_salt: "uxMm9vay"]
@@ -48,7 +48,9 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :pdf_generator,
-        wkhtml_path: "/usr/local/bin/wkhtmltopdf"
+        wkhtml_path: "/usr/local/bin/wkhtmltopdf",
+        prefer_system_executable: true,
+        raise_on_missing_wkhtmltopdf_binary: false
 
 
 # Import environment specific config. This must remain at the bottom
