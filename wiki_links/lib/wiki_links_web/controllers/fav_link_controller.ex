@@ -22,19 +22,18 @@ generate the PDF file through GenServer
   def pdf(conn, _param) do
     links = Wiki_link.list_fav_links()
     html = Phoenix.View.render_to_string(WikiLinksWeb.FavLinkView,"pdf.html", links: links)
-
-     case Pdf.generate_pdf(html)
-     |> IO.inspect(label: "File Name")
-      do
-        {:ok,filename} ->
-          :ok = File.rename(filename, Path.expand("~/Downloads/Favourite_links.pdf"))
-      conn
-      |> put_flash(:info, "PDF Saved")
-      |> redirect(to: Routes.link_path(conn, :index))
-     end
-
-
-
+    case PdfGenerator.generate(html, page_size: "A4", shell_params: ["--dpi", "300"]) do
+          {:ok, filename} ->
+            IO.inspect(filename)
+            :ok = File.rename(filename, Path.expand("~/Downloads/Favourite_links.pdf"))
+            conn
+            |> put_flash(:info, "PDF Saved")
+            |> redirect(to: Routes.link_path(conn, :index))
+            {:error, _changeset} ->
+                    conn
+                 |> put_flash(:error, "PDF Failed")
+                 |> redirect(to: Routes.link_path(conn, :index))
+            end
 end
 
 

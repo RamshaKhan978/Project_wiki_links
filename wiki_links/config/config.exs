@@ -48,7 +48,8 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :pdf_generator,
-        wkhtml_path: "/usr/local/bin/wkhtmltopdf"
+        wkhtml_path: "/usr/local/bin/wkhtmltopdf",
+        raise_on_missing_wkhtmltopdf_binary: false
 
 
 # Import environment specific config. This must remain at the bottom

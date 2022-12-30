@@ -110,16 +110,18 @@ def index(conn, _params) do
   """
   def link_pdf(conn, _params) do
     links = Wiki_link.show_links()
-    html = Phoenix.View.render_to_string(WikiLinksWeb.LinkView,"pdf.html", links: links)
-    case Pdf.generate_pdf(html)
-    |> IO.inspect(label: "File Name")
-     do
-       {:ok, filename} ->
-         IO.inspect(filename, label: " 2nd file name")
-         :ok = File.rename(filename, Path.expand("~/Downloads/Links-List-#{DateTime.utc_now()}.pdf"))
-     conn
-     |> put_flash(:info, "PDF Saved")
-     |> redirect(to: Routes.link_path(conn, :index))
-    end
+    html = Phoenix.View.render_to_string(WikiLinksWeb.FavLinkView,"pdf.html", links: links)
+    case PdfGenerator.generate(html, page_size: "A4", shell_params: ["--dpi", "300"]) do
+          {:ok, filename} ->
+            IO.inspect(filename)
+            :ok = File.rename(filename, Path.expand("~/Downloads/Link_list.pdf"))
+            conn
+            |> put_flash(:info, "PDF Saved")
+            |> redirect(to: Routes.link_path(conn, :index))
+            {:error, _changeset} ->
+                    conn
+                 |> put_flash(:error, "PDF Failed")
+                 |> redirect(to: Routes.link_path(conn, :index))
+            end
   end
 end

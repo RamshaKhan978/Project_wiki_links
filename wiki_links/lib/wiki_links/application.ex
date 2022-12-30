@@ -15,10 +15,10 @@ defmodule WikiLinks.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: WikiLinks.PubSub},
       # Start the Endpoint (http/https)
-      WikiLinksWeb.Endpoint,
+      WikiLinksWeb.Endpoint
       # Start a worker by calling: WikiLinks.Worker.start_link(arg)
       # {WikiLinks.Worker, arg}
-      WikiLinks.GeneratePdf.Pdf
+
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
